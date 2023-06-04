@@ -14,7 +14,7 @@ class ChapterDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mathChapterBloc = BlocProvider.of<MathChapterBloc>(context);
-    // mathChapterBloc.add(LoadMathChapterDetailsEvent(chapterName: chapter.name));
+    mathChapterBloc.add(LoadMathChapterDetailsEvent(chapterName: chapter.name));
     print(chapter);
 
     return Scaffold(
