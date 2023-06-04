@@ -1,17 +1,14 @@
-part of 'mathchapter_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:rahbarapp/model/math_chapter.dart';
 
 abstract class MathChapterState extends Equatable {
-  // const MathchapterState();
+  const MathChapterState();
 
-  // @override
-  // List<Object> get props => [];
-}
-
-class MathChapterLoadingState extends MathChapterState {
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
+
+class MathChapterLoadingState extends MathChapterState {}
 
 class MathChapterLoadedState extends MathChapterState {
   final List<MathChapter> mathChapters;
@@ -19,16 +16,16 @@ class MathChapterLoadedState extends MathChapterState {
   MathChapterLoadedState(this.mathChapters);
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [mathChapters];
+
+  get chapter => null;
 }
 
-class QuizStartedState extends MathChapterState {
-  final int chapterIndex;
+class MathChapterErrorState extends MathChapterState {
+  final String error;
 
-  QuizStartedState(this.chapterIndex);
+  MathChapterErrorState(this.error);
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [error];
 }

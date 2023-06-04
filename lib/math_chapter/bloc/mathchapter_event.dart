@@ -1,18 +1,19 @@
 part of 'mathchapter_bloc.dart';
 
 abstract class MathChapterEvent extends Equatable {
-  // const MathchapterEvent();
-
-  // @override
-  // List<Object> get props => [];
-}
-
-class StartQuizEvent extends MathChapterEvent {
-  final int chapterIndex;
-
-  StartQuizEvent(this.chapterIndex);
+  const MathChapterEvent();
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
+}
+
+class LoadMathChaptersEvent extends MathChapterEvent {}
+
+class LoadMathChapterDetailsEvent extends MathChapterEvent {
+  final String chapterName;
+
+  const LoadMathChapterDetailsEvent({required this.chapterName});
+
+  @override
+  List<Object> get props => [chapterName];
 }
