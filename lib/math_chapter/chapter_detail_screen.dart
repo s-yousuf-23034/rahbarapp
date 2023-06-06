@@ -5,6 +5,7 @@ import 'package:rahbarapp/math_chapter/bloc/mathchapter_state.dart';
 import 'package:rahbarapp/math_chapter/math_chapterlist_screen.dart';
 import 'package:rahbarapp/model/math_chapter.dart';
 import 'package:rahbarapp/widgets/button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChapterDetailScreen extends StatelessWidget {
   final MathChapter chapter;
@@ -14,7 +15,7 @@ class ChapterDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mathChapterBloc = BlocProvider.of<MathChapterBloc>(context);
-    // mathChapterBloc.add(LoadMathChapterDetailsEvent(chapterName: chapter.name));
+    mathChapterBloc.add(LoadMathChapterDetailsEvent(chapterName: chapter.name));
     print(chapter);
 
     return Scaffold(
@@ -22,11 +23,11 @@ class ChapterDetailScreen extends StatelessWidget {
           title: Text(chapter.name),
           leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MathChapterListScreen()));
-              //Navigator.pop(context);
+              // Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => MathChapterListScreen()));
+              Navigator.pop(context);
             },
             icon: Icon(Icons.arrow_back),
           )),
@@ -39,21 +40,36 @@ class ChapterDetailScreen extends StatelessWidget {
             );
           } else if (state is MathChapterLoadedState) {
             final chapter = state.chapter;
-            return Column(
-              children: [
-                Text(chapter.name),
-                Text(chapter.videoUrl),
-                MyButton(
-                  buttonName: "Start Quiz",
-                  color: Color.fromRGBO(85, 24, 93, 9),
-                  textcolor: Colors.white,
-                  onPressed: () {
-                    // Navigator.pushReplacement(context,
-                    //     MaterialPageRoute(builder: (context) => Quiz()));
-                  },
-                ),
-                // Add more widgets to display chapter details
-              ],
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(chapter.name),
+                  GestureDetector(
+                    onTap: () {
+                      launch(chapter.videoUrl);
+                    },
+                    child: Text(
+                      chapter.videoUrl,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  MyButton(
+                    buttonName: "Start Quiz",
+                    color: Color.fromRGBO(85, 24, 93, 9),
+                    textcolor: Colors.white,
+                    onPressed: () {
+                      // Navigator.pushReplacement(context,
+                      //     MaterialPageRoute(builder: (context) => Quiz()));
+                    },
+                  ),
+                  // Add more widgets to display chapter details
+                ],
+              ),
             );
           } else if (state is MathChapterErrorState) {
             return Text(state.error);

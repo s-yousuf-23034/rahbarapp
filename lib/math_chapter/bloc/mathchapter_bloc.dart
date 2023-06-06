@@ -6,6 +6,7 @@ import 'package:rahbarapp/model/math_chapter.dart';
 part 'mathchapter_event.dart';
 
 class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
+  List<MathChapter> mathChapters = [];
   MathChapterBloc() : super(MathChapterLoadingState()) {
     on<LoadMathChaptersEvent>(_loadMathChapters);
     on<LoadMathChapterDetailsEvent>(_loadMathChapterDetails);
@@ -20,7 +21,7 @@ class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
 
     try {
       // Static data for the math chapters
-      List<MathChapter> mathChapters = [
+      mathChapters = [
         MathChapter(
           name: 'Complex Number',
           videoUrl: 'https://www.youtube.com/watch?v=BZxZ_eEuJBM',
@@ -114,17 +115,21 @@ class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
   void _loadMathChapterDetails(
       LoadMathChapterDetailsEvent event, Emitter<MathChapterState> emit) async {
     emit(MathChapterLoadingState());
+    // print("......................function called");
 
     // Simulating the loading of chapter details
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
 
     try {
       // Retrieve the chapter details based on the provided chapterName
+      // print("..............trying:}");
+
       MathChapter? chapter = await _fetchChapterDetails(event.chapterName);
-      print("chapter: ${chapter?.name}");
+      // print("..............chapter: ${chapter?.name}");
 
       if (chapter != null) {
-        emit(MathChapterLoadedState([chapter]));
+        // print("chapter not null ${chapter.videoUrl}");
+        emit(MathChapterLoadedState([chapter], chap: chapter));
       } else {
         emit(MathChapterErrorState('Chapter not found.'));
       }
@@ -133,7 +138,7 @@ class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
     }
   }
 
-  Future<MathChapter?> _fetchChapterDetails(String chapterName) async {
+  _fetchChapterDetails(String chapterName) async {
     List<MathChapter> mathChapters = [
       MathChapter(
         name: 'Complex Number',
@@ -220,11 +225,12 @@ class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
     ];
     MathChapter? chapter;
     try {
-      mathChapters.forEach((element) {
+      for (var element in mathChapters) {
         if (element.name == chapterName) {
           chapter = element;
+          break;
         }
-      });
+      }
 
       // chapter = mathChapters
       //     .firstWhere((mathChapter) => mathChapter.name == chapterName);
@@ -232,7 +238,7 @@ class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
       // Chapter not found
       chapter = null;
     }
-    print(chapter?.name);
+    // print(chapter?.name);
     return chapter;
   }
 }

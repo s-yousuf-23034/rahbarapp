@@ -1,33 +1,92 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:mockito/mockito.dart';
+// import 'package:rahbarapp/math_chapter/bloc/mathchapter_bloc.dart';
+// import 'package:rahbarapp/math_chapter/bloc/mathchapter_state.dart';
+// import 'package:rahbarapp/math_chapter/chapter_detail_screen.dart';
+// import 'package:rahbarapp/math_chapter/math_chapterlist_screen.dart';
+// import 'package:rahbarapp/model/math_chapter.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 
-import 'package:rahbarapp/main.dart';
+// // Mock FirebaseAuth
+// class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    // ignore: prefer_const_constructors
-    //final FirebaseAuth auth = FirebaseAuth.instance;
-    // await tester.pumpWidget(MyApp(auth: auth,));
+// // Mock FirebaseFirestore
+// class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+// void main() {
+//   group('MathChapterListScreen', () {
+//     late MockFirebaseAuth mockFirebaseAuth;
+//     late MockFirebaseFirestore mockFirebaseFirestore;
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+//     setUp(() {
+//       mockFirebaseAuth = MockFirebaseAuth();
+//       mockFirebaseFirestore = MockFirebaseFirestore();
+//     });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
-}
+//     testWidgets('Should show CircularProgressIndicator when loading state',
+//         (WidgetTester tester) async {
+//       await tester.pumpWidget(MaterialApp(
+//         home: MathChapterListScreen(),
+//       ));
+
+//       final circularProgressIndicatorFinder =
+//           find.byType(CircularProgressIndicator);
+
+//       expect(circularProgressIndicatorFinder, findsOneWidget);
+//     });
+
+//     testWidgets('Should show chapter list when loaded state',
+//         (WidgetTester tester) async {
+//       // Mock the loaded state
+//       final mathChapters = [
+//         MathChapter(name: 'Chapter 1', quizAttempted: true, videoUrl: ''),
+//         MathChapter(name: 'Chapter 2', quizAttempted: false, videoUrl: ''),
+//       ];
+//       final loadedState = MathChapterLoadedState(mathChapters: mathChapters);
+//       final bloc = MockMathChapterBloc();
+//       when(bloc.state).thenReturn(loadedState);
+
+//       await tester.pumpWidget(MaterialApp(
+//         home: BlocProvider<MathChapterBloc>.value(
+//           value: bloc,
+//           child: MathChapterListScreen(),
+//         ),
+//       ));
+
+//       final chapter1Finder = find.text('Chapter 1');
+//       final chapter2Finder = find.text('Chapter 2');
+
+//       expect(chapter1Finder, findsOneWidget);
+//       expect(chapter2Finder, findsOneWidget);
+//     });
+
+//     testWidgets('Should navigate to ChapterDetailScreen on chapter tap',
+//         (WidgetTester tester) async {
+//       // Mock the loaded state
+//       final mathChapters = [
+//         MathChapter(name: 'Chapter 1', quizAttempted: true, videoUrl: ''),
+//       ];
+//       final loadedState = MathChapterLoadedState(mathChapters: mathChapters);
+//       final bloc = MockMathChapterBloc();
+//       when(bloc.state).thenReturn(loadedState);
+
+//       await tester.pumpWidget(MaterialApp(
+//         home: BlocProvider<MathChapterBloc>.value(
+//           value: bloc,
+//           child: MathChapterListScreen(),
+//         ),
+//       ));
+
+//       final chapterFinder = find.text('Chapter 1');
+//       await tester.tap(chapterFinder);
+//       await tester.pumpAndSettle();
+
+//       // Verify navigation
+//       expect(find.byType(ChapterDetailScreen), findsOneWidget);
+//     });
+//   });
+// }

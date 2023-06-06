@@ -12,13 +12,13 @@ class MathChapterLoadingState extends MathChapterState {}
 
 class MathChapterLoadedState extends MathChapterState {
   final List<MathChapter> mathChapters;
-
-  MathChapterLoadedState(this.mathChapters);
+  dynamic chap;
+  MathChapterLoadedState(this.mathChapters, {this.chap});
 
   @override
   List<Object?> get props => [mathChapters];
 
-  get chapter => null;
+  get chapter => chap;
 }
 
 class MathChapterErrorState extends MathChapterState {

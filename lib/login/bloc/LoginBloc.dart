@@ -1,9 +1,6 @@
-import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:rahbarapp/login/bloc/LoginEvent.dart';
-import 'package:rahbarapp/login/bloc/LoginState.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'LoginEvent.dart';
+import 'LoginState.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial());
@@ -27,42 +24,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
   }
+
+  Future<bool> isAdmin(String email, String password) async {
+    // Replace this with your actual admin authentication logic
+    // You can use your database or any other method to validate the admin credentials
+    if (email == 'laiba@gmail.com' && password == '12345678') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
-
-
-// class LoginBloc extends Bloc<LoginEvent, LoginState> {
-//   final FirebaseAuth _auth;
-
-//   LoginBloc({required FirebaseAuth auth})
-//       : _auth = auth,
-//         super(LoginInitial());
-
-//   @override
-//   Stream<LoginState> mapEventToState(LoginEvent event) async* {
-//     if (event is LoginButtonPressed) {
-//       yield* _mapLoginButtonPressedToState(event);
-//     }
-//   }
-
-//   Stream<LoginState> _mapLoginButtonPressedToState(
-//       LoginButtonPressed event) async* {
-//     yield LoginLoading();
-//     try {
-//       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-//         email: event.email,
-//         password: event.password,
-//       );
-//       yield LoginSuccess(user: userCredential.user!);
-//     } on FirebaseAuthException catch (e) {
-//       if (e.code == 'user-not-found') {
-//         yield LoginFailure(error: 'No user found for that email');
-//       } else if (e.code == 'wrong-password') {
-//         yield LoginFailure(error: 'Wrong password');
-//       } else {
-//         yield LoginFailure(error: 'Login failed');
-//       }
-//     } catch (e) {
-//       yield LoginFailure(error: 'Login failed');
-//     }
-//   }
-// }
