@@ -6,6 +6,8 @@ abstract class EnglishChapterState extends Equatable {
 
   @override
   List<Object?> get props => [];
+
+  get chapter => null;
 }
 
 class EnglishChapterLoadingState extends EnglishChapterState {}

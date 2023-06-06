@@ -32,72 +32,73 @@ class _MathChapterListScreenState extends State<MathChapterListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MathChapterBloc>(
-        create: (context) => _mathChapterBloc,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Maths Chapters'),
-          ),
-          body: BlocBuilder<MathChapterBloc, MathChapterState>(
-            bloc: _mathChapterBloc,
-            builder: (context, state) {
-              if (state is MathChapterLoadingState) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (state is MathChapterLoadedState) {
-                return ListView.builder(
-                  itemCount: state.mathChapters.length,
-                  itemBuilder: (context, index) {
-                    final chapter = state.mathChapters[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(
-                          (index + 1).toString(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        backgroundColor: Colors.purple,
-                      ),
-                      title: Text(
-                        chapter.name,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      //subtitle: Text('Video URL: ${chapter.videoUrl}'),
-                      trailing: chapter.quizAttempted
-                          ? CircleAvatar(
-                              backgroundColor: Colors.amber,
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.deepOrange,
-                              ),
-                            )
-                          : null,
-                      onTap: () async {
-                        print('Tapped on chapter: ${chapter.name}');
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ChapterDetailScreen(chapter: chapter),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Maths Chapters'),
+      ),
+      body: BlocBuilder<MathChapterBloc, MathChapterState>(
+        bloc: _mathChapterBloc,
+        builder: (context, state) {
+          if (state is MathChapterLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is MathChapterLoadedState) {
+            return ListView.builder(
+              itemCount: state.mathChapters.length,
+              itemBuilder: (context, index) {
+                final chapter = state.mathChapters[index];
+                return ListTile(
+                  leading: CircleAvatar(
+                    child: Text(
+                      (index + 1).toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    backgroundColor: Colors.purple,
+                  ),
+                  title: Text(
+                    chapter.name,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  //subtitle: Text('Video URL: ${chapter.videoUrl}'),
+                  trailing: chapter.quizAttempted
+                      ? CircleAvatar(
+                          backgroundColor: Colors.amber,
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.deepOrange,
                           ),
-                        );
-                        _mathChapterBloc.add(LoadMathChaptersEvent());
-                      },
-                    );
+                        )
+                      : null,
+                  onTap: () async {
+                    if (chapter != null) {
+                      print('Tapped on chapter: ${chapter.name}');
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: _mathChapterBloc,
+                            child: ChapterDetailScreen(chapter: chapter),
+                          ),
+                        ),
+                      );
+                      _mathChapterBloc.add(LoadMathChaptersEvent());
+                    }
                   },
                 );
-              } else {
-                return Center(
-                  child: Text('Failed to load chapters.'),
-                );
-              }
-            },
-          ),
-        ));
+              },
+            );
+          } else {
+            return Center(
+              child: Text('Failed to load chapters.'),
+            );
+          }
+        },
+      ),
+    );
   }
 
   Future<void> _updateChapterAttemptStatus(

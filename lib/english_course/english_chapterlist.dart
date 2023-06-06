@@ -75,15 +75,19 @@ class _EnglishChapterListScreenState extends State<EnglishChapterListScreen> {
                         )
                       : null,
                   onTap: () async {
-                    print('Tapped on chapter: ${chapter.name}');
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ChapterDetailScreen(chapter: chapter),
-                      ),
-                    );
-                    _englishChapterBloc.add(LoadEnglishChaptersEvent());
+                    if (chapter != null) {
+                      print('Tapped on chapter: ${chapter.name}');
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: _englishChapterBloc,
+                            child: ChapterDetailScreen(chapter: chapter),
+                          ),
+                        ),
+                      );
+                      _englishChapterBloc.add(LoadEnglishChaptersEvent());
+                    }
                   },
                 );
               },

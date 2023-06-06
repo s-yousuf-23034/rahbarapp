@@ -241,4 +241,6 @@ class MathChapterBloc extends Bloc<MathChapterEvent, MathChapterState> {
     // print(chapter?.name);
     return chapter;
   }
+
+  addAsync(LoadMathChapterDetailsEvent loadMathChapterDetailsEvent) {}
 }

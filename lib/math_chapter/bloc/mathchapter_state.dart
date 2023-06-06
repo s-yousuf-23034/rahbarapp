@@ -6,6 +6,8 @@ abstract class MathChapterState extends Equatable {
 
   @override
   List<Object?> get props => [];
+
+  get chapter => null;
 }
 
 class MathChapterLoadingState extends MathChapterState {}
